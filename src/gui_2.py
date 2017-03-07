@@ -1,4 +1,4 @@
-from Tkinter import Tk, Listbox, END, Label, N, E, S, W, Menu, Frame, Entry, Scale, HORIZONTAL, Canvas
+from Tkinter import Tk, Listbox, END, Label, N, E, S, W, Menu, Frame, Entry, Scale, HORIZONTAL, Canvas, SINGLE, StringVar, OptionMenu
 from ttk import Button
 from PIL import ImageTk, Image
 from os import listdir
@@ -16,7 +16,7 @@ class Gui(Frame):
         self.rframe = Frame()
         self.rbframe = Frame()
         self.mframe = Frame(width=802, height=700)
-        self.listbox = Listbox(self.lframe, height=35, bg="#333", fg="#fff")
+        self.listbox = Listbox(self.lframe, selectmode=SINGLE, height=35, bg="#333", fg="#fff")
         self.menubar = Menu(self)
         self.filemenu = Menu(self.menubar, tearoff=0)
         self.imglbl = Label(self.mframe)
@@ -68,14 +68,23 @@ class Gui(Frame):
         lblt1 = Label(self.rframe, text="Opacity", bg="#333", fg="white")
         lblt1.grid(row=1, column=7, padx=1, pady=5, sticky=W+N)
 
+        lst1 = ['Top-left', 'Top-right', 'Bottom-left', 'Bottom-right']
+        var1 = StringVar()
+        var1.set("Bottom-right")
+        drop = OptionMenu(self.rframe, var1, *lst1)
+        drop.config(highlightthickness=0)
+        drop.grid(row=2, column=6, padx=5, pady=5, sticky=W + N + E)
+        lblt2 = Label(self.rframe, text="Location", bg="#333", fg="white")
+        lblt2.grid(row=2, column=7, padx=1, pady=5, sticky=W + N)
+
         tool2 = Button(self.rframe, text="Next image", command=self.nextimg)
-        tool2.grid(row=2, column=6, padx=5, pady=5, sticky=N + S + E + W)
+        tool2.grid(row=3, column=6, padx=5, pady=5, sticky=N+S+E+W)
 
         tool3 = Button(self.rframe, text="Preview")
-        tool3.grid(row=3, column=6, padx=5, pady=5, sticky=N+S+E+W)
+        tool3.grid(row=4, column=6, padx=5, pady=5, sticky=N+S+E+W)
 
         tool4 = Button(self.rframe, text="Save")
-        tool4.grid(row=4, column=6, padx=5, pady=5, sticky=N+S+E+W)
+        tool4.grid(row=5, column=6, padx=5, pady=5, sticky=N+S+E+W)
 
         canvas = Canvas(self.rbframe, bg="#333", width=125, height=150, highlightthickness=0)
         canvas.grid()
@@ -85,13 +94,17 @@ class Gui(Frame):
 
     def nextimg(self):
         if self.imgidx+1 < self.maximgidx:
+            self.listbox.selection_clear(self.imgidx)
             case1 = self.listbox.get(self.imgidx+1)
             self.imgidx += 1
             self.loadimage(self.path + "/" + case1)
+            self.listbox.selection_set(self.imgidx)
         else:
             case2 = self.listbox.get(0)
             self.imgidx = 0
             self.loadimage(self.path + "/" + case2)
+            self.listbox.selection_clear(self.maximgidx-1)
+            self.listbox.selection_set(self.imgidx)
 
     def listfiles(self, imgdir):
         mypath = imgdir
@@ -107,10 +120,13 @@ class Gui(Frame):
         self.listbox.grid(row=0, padx=10, pady=15, sticky=N+E)
 
     def drawimage(self, image):
+
+        #image.resize((800, 600), Image.ANTIALIAS)
+
         basewidth = 800
         wpercent = (basewidth / float(image.size[0]))
         hsize = int((float(image.size[1]) * float(wpercent)))
-        image = ImageTk.PhotoImage(image.resize((basewidth, hsize), Image.ANTIALIAS))
+        image = ImageTk.PhotoImage(image.resize((800,600), Image.ANTIALIAS))
 
         self.imglbl.configure(image=image)
         self.imglbl.image = image
