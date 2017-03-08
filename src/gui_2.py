@@ -1,4 +1,4 @@
-from Tkinter import Tk, Listbox, END, Label, N, E, S, W, Menu, Frame, Entry, Scale, HORIZONTAL, Canvas, SINGLE, StringVar, OptionMenu
+from Tkinter import Tk, Listbox, END, Label, N, E, S, W, Menu, Frame, Entry, Scale, HORIZONTAL, Canvas, SINGLE, StringVar, OptionMenu, CENTER
 from ttk import Button
 from PIL import ImageTk, Image, ImageDraw, ImageFont
 from os import listdir
@@ -58,7 +58,7 @@ class Gui(Frame):
         self.lframe.grid(row=0, column=0, padx=10, pady=0, sticky=N+W)
         self.mframe.grid(row=0, column=1, padx=0, pady=15, sticky=N)
         self.rframe.grid(row=0, column=6, padx=15, pady=10, sticky=N+E)
-        self.rbframe.grid(row=0, column=6, padx=0, pady=0, sticky=S+E)
+        self.rbframe.grid(row=0, column=6, padx=0, pady=0, sticky=E+W+S)
 
 
         self.txt.grid(row=0, column=6, padx=5, pady=5)
@@ -80,20 +80,34 @@ class Gui(Frame):
         lblt2 = Label(self.rframe, text="Location", bg="#333", fg="white")
         lblt2.grid(row=2, column=7, padx=1, pady=5, sticky=W + N)
 
+        tool5 = Button(self.rframe, text="Resize folder", command=self.resizeall)
+        tool5.grid(row=3, column=6, padx=5, pady=5, sticky=N+S+E+W)
+
         tool2 = Button(self.rframe, text="Next image", command=self.nextimg)
-        tool2.grid(row=3, column=6, padx=5, pady=5, sticky=N+S+E+W)
+        tool2.grid(row=4, column=6, padx=5, pady=5, sticky=N+S+E+W)
 
         tool3 = Button(self.rframe, text="Preview", command=self.preview)
-        tool3.grid(row=4, column=6, padx=5, pady=5, sticky=N+S+E+W)
+        tool3.grid(row=5, column=6, padx=5, pady=5, sticky=N+S+E+W)
 
         tool4 = Button(self.rframe, text="Save")
-        tool4.grid(row=5, column=6, padx=5, pady=5, sticky=N+S+E+W)
+        tool4.grid(row=6, column=6, padx=5, pady=5, sticky=N+S+E+W)
 
-        canvas = Canvas(self.rbframe, bg="#333", width=125, height=150, highlightthickness=0)
+        canvas = Canvas(self.rbframe, bg="#333", width=280, height=200, highlightthickness=0)
         canvas.grid()
         photoimage = ImageTk.PhotoImage(file="logosmall.png")
         photoimage.image = photoimage
-        canvas.create_image(60, 77, image=photoimage)
+        canvas.create_image(200, 200, image=photoimage, anchor=CENTER)
+
+    def resizeall(self):
+        foldername = tkFileDialog.askdirectory()
+        onlyfiles = [f for f in listdir(foldername) if isfile(join(foldername, f))]
+        images = [fi for fi in onlyfiles if fi.endswith((".jpg", ".png", ".gif"))]
+        images = sorted(images)
+
+        for image in images:
+            orig = Image.open(foldername + "/" + image)
+            fitted = orig.resize((800,600), Image.ANTIALIAS)
+            fitted.save(foldername + "/resized/re_" + image)
 
     def preview(self):
         #self.overlaytext = self.txt.get()
@@ -101,7 +115,6 @@ class Gui(Frame):
 
     def overlay(self, text):
         # get an image
-        print self.filename
         base = Image.open(self.filename).convert('RGBA').resize((800,600), Image.ANTIALIAS)
         # make a blank image for the text, initialized to transparent text color
         txt = Image.new('RGBA', base.size, (255, 255, 255, 00))
@@ -118,7 +131,8 @@ class Gui(Frame):
         w = txt.rotate(0)
         out = Image.alpha_composite(base, w)
 
-        out.show()
+        self.drawimage(out)
+        #out.show()
 
     def nextimg(self):
         if self.imgidx+1 < self.maximgidx:
@@ -157,7 +171,8 @@ class Gui(Frame):
         self.imglbl.grid(row=0, column=1, sticky=N)
 
     def loadimage(self, filename):
-        self.drawimage(Image.open(filename))
+        image = Image.open(filename).resize((800,600), Image.ANTIALIAS)
+        self.drawimage(image)
 
     def getpath(self):
         self.filename = tkFileDialog.askopenfilename()

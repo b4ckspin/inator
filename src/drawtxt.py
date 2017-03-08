@@ -1,6 +1,6 @@
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 # get an image
-base = Image.open('logo.png').convert('RGBA')
+base = Image.open('logosmall.png').convert('RGBA')
 
 # make a blank image for the text, initialized to transparent text color
 txt = Image.new('RGBA', base.size, (255,255,255,0))
