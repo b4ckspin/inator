@@ -1,9 +1,8 @@
 from Tkinter import Tk, Listbox, END, Label, N, E, S, W, Menu, Frame, Entry, Scale, HORIZONTAL, Canvas, \
                     SINGLE, StringVar, OptionMenu, DISABLED, NORMAL, Button
-# from ttk import Button
 from PIL import ImageTk, Image, ImageDraw, ImageFont
 from os import listdir, makedirs
-from os.path import isfile, join, abspath, dirname
+from os.path import isfile, join, abspath, dirname, isdir
 import tkFileDialog
 
 
@@ -113,11 +112,26 @@ class Gui(Frame):
         images = [fi for fi in onlyfiles if fi.endswith((".jpg", ".png", ".gif"))]
         images = sorted(images)
 
-        makedirs((join(foldername, "resized")))
+        if not images:
+            return
+
+        foldername_re = join(foldername, "resized")
+
+        if not isdir(foldername_re):
+            makedirs(foldername_re)
+
         for image in images:
             orig = Image.open(join(foldername, image))
             fitted = orig.resize((800, 600), Image.ANTIALIAS)
-            fitted.save(join(foldername, "/resized/re_", image))
+            fitted.save(join(foldername, "resized", image))
+
+        self.loadimage(join(foldername_re, images[0]))
+        self.listfiles(foldername)
+        self.tool2.configure(state=NORMAL)
+        self.tool3.configure(state=NORMAL)
+        self.filename = images[0]
+        self.path = foldername_re
+        self.listbox.bind("<<ListboxSelect>>", self.onselect)
 
     def preview(self):
         self.howto("preview")
@@ -183,7 +197,6 @@ class Gui(Frame):
         self.listbox.delete(0, END)
         for item in images:
             self.listbox.insert(END, item)
-        self.listbox.bind("<<ListboxSelect>>", self.onselect)
         self.listbox.grid(row=0, padx=10, pady=15, sticky=N+E)
 
     def drawimage(self, image):
@@ -215,6 +228,7 @@ class Gui(Frame):
             return
 
         self.howto("open")
+        self.listbox.bind("<<ListboxSelect>>", self.onselect)
         self.tool2.config(state=NORMAL)
         self.tool3.config(state=NORMAL)
         self.path = dirname(self.filename)
