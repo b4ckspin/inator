@@ -1,6 +1,6 @@
 from Tkinter import Tk, Listbox, END, Label, N, E, S, W, Menu, Frame, Entry, Scale, HORIZONTAL, Canvas, \
-                    SINGLE, StringVar, OptionMenu, DISABLED, NORMAL
-from ttk import Button
+                    SINGLE, StringVar, OptionMenu, DISABLED, NORMAL, Button
+# from ttk import Button
 from PIL import ImageTk, Image, ImageDraw, ImageFont
 from os import listdir, makedirs
 from os.path import isfile, join, abspath, dirname
@@ -29,6 +29,7 @@ class Gui(Frame):
         self.tool2 = Button(self.rframe, text="Next image", command=self.nextimg, state=DISABLED)
         self.tool3 = Button(self.rframe, text="Preview", command=self.preview, state=DISABLED)
         self.tool4 = Button(self.rframe, text="Save", state=DISABLED)
+        self.var1 = StringVar()
 
         self.imgidx = 0
         self.maximgidx = 0
@@ -56,10 +57,10 @@ class Gui(Frame):
         self.menubar.add_cascade(label="File", menu=self.filemenu)
         self.parent.config(menu=self.menubar)
 
-        lstlbl = Label(self.lframe, text="placeholder")
-        lstlbl.grid(row=11, padx=10, pady=4, columnspan=2, sticky=N+S+E+W)
+        tool5 = Button(self.lframe, text="Resize folder", command=self.resizeall, highlightthickness=0)
+        tool5.grid(row=1, column=0, padx=10, sticky=N+S+E+W)
 
-        self.lframe.grid(row=0, column=0, padx=10, pady=0, sticky=N+W)
+        self.lframe.grid(row=0, column=0, padx=10, sticky=N+W)
         self.mframe.grid(row=0, column=1, padx=0, pady=15, sticky=N)
         self.rframe.grid(row=0, column=6, padx=15, pady=10, sticky=N+E)
         self.rbframe.grid(row=0, column=6, padx=0, pady=0, sticky=E+W+S)
@@ -74,16 +75,13 @@ class Gui(Frame):
         lblt1.grid(row=1, column=7, padx=1, pady=5, sticky=W+N)
 
         lst1 = ['Top-left', 'Top-right', 'Bottom-left', 'Bottom-right']
-        var1 = StringVar()
-        var1.set("Bottom-right")
-        drop = OptionMenu(self.rframe, var1, *lst1)
+
+        self.var1.set("Bottom-right")
+        drop = OptionMenu(self.rframe, self.var1, *lst1)
         drop.config(highlightthickness=0)
         drop.grid(row=2, column=6, padx=5, pady=5, sticky=W + N + E)
         lblt2 = Label(self.rframe, text="Location", bg="#333", fg="white")
         lblt2.grid(row=2, column=7, padx=1, pady=5, sticky=W + N)
-
-        tool5 = Button(self.rframe, text="Resize folder", command=self.resizeall)
-        tool5.grid(row=3, column=6, padx=5, pady=5, sticky=N+S+E+W)
 
         self.tool2.grid(row=4, column=6, padx=5, pady=5, sticky=N+S+E+W)
         self.tool3.grid(row=5, column=6, padx=5, pady=5, sticky=N+S+E+W)
@@ -135,9 +133,22 @@ class Gui(Frame):
 
         font = ImageFont.truetype(join(abspath("."), "fonts", "DolceVitaBold.ttf"), 20)
         w, h = font.getsize(text)
+        x, y = 0, 0
+        if self.var1.get() == "Bottom-right":
+            x = 800-w-15
+            y = 600-h-15
+        elif self.var1.get() == "Bottom-left":
+            x = 15
+            y = 600 - h - 15
+        elif self.var1.get() == "Top-right":
+            x = 800-w-15
+            y = 15
+        elif self.var1.get() == "Top-left":
+            x = 15
+            y = 15
 
         d = ImageDraw.Draw(txt)
-        d.text(((800-w-15), (600-h)-15), text, fill=(255, 255, 255, self.tool1.get()), font=font)
+        d.text((x, y), text, fill=(255, 255, 255, self.tool1.get()), font=font)
         w = txt.rotate(0)
         out = Image.alpha_composite(base, w)
 
@@ -192,7 +203,13 @@ class Gui(Frame):
         self.drawimage(image)
 
     def getpath(self):
-        self.filename = tkFileDialog.askopenfilename()
+        ftypes = [
+            ('Jpg files', '*.jpg'),
+            ('Png files', '*.png'),
+            ('Gif files', '*.gif'),
+            ('All files', '*'),
+        ]
+        self.filename = tkFileDialog.askopenfilename(filetypes=ftypes)
 
         if not self.filename:
             return

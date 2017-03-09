@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="47c7b5d3-fe17-4f43-9f95-6b2bafcdb2d2" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/empty.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/logosmall.png" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/anon.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/anon.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gui_2.py" afterPath="$PROJECT_DIR$/src/gui_2.py" />
@@ -38,7 +36,7 @@
     <SUITE FILE_PATH="coverage/wasinator$checkbtn.coverage" NAME="checkbtn Coverage Results" MODIFIED="1488368993745" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/wasinator$scale.coverage" NAME="scale Coverage Results" MODIFIED="1488459418552" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/inator$imgstuff.coverage" NAME="imgstuff Coverage Results" MODIFIED="1489051433438" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/inator$gui_2.coverage" NAME="gui_2 Coverage Results" MODIFIED="1489063428878" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/inator$gui_2.coverage" NAME="gui_2 Coverage Results" MODIFIED="1489067915682" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/wasinator$glob.coverage" NAME="glob Coverage Results" MODIFIED="1488450662740" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/wasinator$layout_calc.coverage" NAME="layout_calc Coverage Results" MODIFIED="1488455706879" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/wasinator$trans.coverage" NAME="trans Coverage Results" MODIFIED="1488539315639" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
@@ -57,10 +55,10 @@
       <file leaf-file-name="gui_2.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/gui_2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="521">
-              <caret line="96" column="45" lean-forward="true" selection-start-line="96" selection-start-column="45" selection-end-line="96" selection-end-column="45" />
+            <state relative-caret-position="641">
+              <caret line="149" column="31" lean-forward="true" selection-start-line="149" selection-start-column="31" selection-end-line="149" selection-end-column="31" />
               <folding>
-                <element signature="e#0#173#0" expanded="true" />
+                <element signature="e#0#181#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -171,6 +169,9 @@
       <find>fnt</find>
       <find>listfiles</find>
       <find>howto</find>
+      <find>abspath</find>
+      <find>self.path</find>
+      <find>lstl</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -609,7 +610,14 @@
       <option name="project" value="LOCAL" />
       <updated>1488997262136</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="generic paths, howto">
+      <created>1489063528236</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1489063528236</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -657,7 +665,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="preview function updated" />
-    <option name="LAST_COMMIT_MESSAGE" value="preview function updated" />
+    <MESSAGE value="generic paths, howto" />
+    <option name="LAST_COMMIT_MESSAGE" value="generic paths, howto" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -697,7 +706,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#173#0" expanded="true" />
+            <element signature="e#0#181#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -818,7 +827,7 @@
         <state relative-caret-position="576">
           <caret line="34" column="0" lean-forward="false" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
           <folding>
-            <element signature="e#0#173#0" expanded="true" />
+            <element signature="e#0#181#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -893,7 +902,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#173#0" expanded="true" />
+            <element signature="e#0#181#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1061,10 +1070,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gui_2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="521">
-          <caret line="96" column="45" lean-forward="true" selection-start-line="96" selection-start-column="45" selection-end-line="96" selection-end-column="45" />
+        <state relative-caret-position="641">
+          <caret line="149" column="31" lean-forward="true" selection-start-line="149" selection-start-column="31" selection-end-line="149" selection-end-column="31" />
           <folding>
-            <element signature="e#0#173#0" expanded="true" />
+            <element signature="e#0#181#0" expanded="true" />
           </folding>
         </state>
       </provider>
