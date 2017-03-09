@@ -3,13 +3,17 @@
     <words>
       <w>baseheight</w>
       <w>basewidth</w>
+      <w>dolce</w>
       <w>filemenu</w>
+      <w>foldername</w>
+      <w>howto</w>
       <w>hpercent</w>
       <w>hsize</w>
       <w>imgdir</w>
       <w>imgframe</w>
       <w>imgidx</w>
       <w>imglbl</w>
+      <w>inator</w>
       <w>lblt</w>
       <w>lbltxt</w>
       <w>lcanvas</w>
@@ -26,11 +30,15 @@
       <w>nextimg</w>
       <w>onlyfiles</w>
       <w>onselect</w>
+      <w>overlaytext</w>
       <w>photoimage</w>
       <w>rbcanvas</w>
       <w>rbframe</w>
+      <w>resizeall</w>
+      <w>resized</w>
       <w>rframe</w>
       <w>wasinator</w>
+      <w>watermarkinator</w>
       <w>wpercent</w>
       <w>wsize</w>
     </words>

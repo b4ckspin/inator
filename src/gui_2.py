@@ -1,7 +1,8 @@
-from Tkinter import Tk, Listbox, END, Label, N, E, S, W, Menu, Frame, Entry, Scale, HORIZONTAL, Canvas, SINGLE, StringVar, OptionMenu, CENTER
+from Tkinter import Tk, Listbox, END, Label, N, E, S, W, Menu, Frame, Entry, Scale, HORIZONTAL, Canvas, \
+                    SINGLE, StringVar, OptionMenu, DISABLED, NORMAL
 from ttk import Button
 from PIL import ImageTk, Image, ImageDraw, ImageFont
-from os import listdir
+from os import listdir, makedirs
 from os.path import isfile, join, abspath, dirname
 import tkFileDialog
 
@@ -24,6 +25,10 @@ class Gui(Frame):
         self.overlaytext = ""
         self.txt = Entry(self.rframe)
         self.filename = ""
+        self.tool1 = Scale(self.rframe, from_=0, to=255, orient=HORIZONTAL)
+        self.tool2 = Button(self.rframe, text="Next image", command=self.nextimg, state=DISABLED)
+        self.tool3 = Button(self.rframe, text="Preview", command=self.preview, state=DISABLED)
+        self.tool4 = Button(self.rframe, text="Save", state=DISABLED)
 
         self.imgidx = 0
         self.maximgidx = 0
@@ -32,10 +37,11 @@ class Gui(Frame):
         self.mainframe()
 
     def mainframe(self):
-        self.parent.title("GUI test 2")
+        self.parent.title("Watermarkinator v0.8")
         self.parent.configure(background='#333')
 
-        self.loadimage("empty.png")
+        self.loadimage(join("howto", "intro.png"))
+        self.listfiles(self.path)
 
         self.lframe.configure(background="#333")
         self.mframe.configure(background='#333')
@@ -50,8 +56,6 @@ class Gui(Frame):
         self.menubar.add_cascade(label="File", menu=self.filemenu)
         self.parent.config(menu=self.menubar)
 
-        self.listfiles(self.path)
-
         lstlbl = Label(self.lframe, text="placeholder")
         lstlbl.grid(row=11, padx=10, pady=4, columnspan=2, sticky=N+S+E+W)
 
@@ -60,12 +64,10 @@ class Gui(Frame):
         self.rframe.grid(row=0, column=6, padx=15, pady=10, sticky=N+E)
         self.rbframe.grid(row=0, column=6, padx=0, pady=0, sticky=E+W+S)
 
-
         self.txt.grid(row=0, column=6, padx=5, pady=5)
         lbltxt = Label(self.rframe, text="Overlay Text", bg="#333", fg="white")
         lbltxt.grid(row=0, column=7, padx=1, pady=5, sticky=W+N)
 
-        self.tool1 = Scale(self.rframe, from_=0, to=255, orient=HORIZONTAL)
         self.tool1.set(255)
         self.tool1.grid(row=1, column=6, padx=5, pady=5, sticky=N+S+E+W)
         lblt1 = Label(self.rframe, text="Opacity", bg="#333", fg="white")
@@ -83,70 +85,80 @@ class Gui(Frame):
         tool5 = Button(self.rframe, text="Resize folder", command=self.resizeall)
         tool5.grid(row=3, column=6, padx=5, pady=5, sticky=N+S+E+W)
 
-        tool2 = Button(self.rframe, text="Next image", command=self.nextimg)
-        tool2.grid(row=4, column=6, padx=5, pady=5, sticky=N+S+E+W)
+        self.tool2.grid(row=4, column=6, padx=5, pady=5, sticky=N+S+E+W)
+        self.tool3.grid(row=5, column=6, padx=5, pady=5, sticky=N+S+E+W)
+        self.tool4.grid(row=6, column=6, padx=5, pady=5, sticky=N+S+E+W)
 
-        tool3 = Button(self.rframe, text="Preview", command=self.preview)
-        tool3.grid(row=5, column=6, padx=5, pady=5, sticky=N+S+E+W)
+    def howto(self, which):
+        name = ""
+        if which == "resize":
+            name = join("howto", "dr2_2.png")
+        elif which == "open":
+            name = join("howto", "dr3_1.png")
+        elif which == "preview":
+            name = join("howto", "dr4_1.png")
 
-        tool4 = Button(self.rframe, text="Save")
-        tool4.grid(row=6, column=6, padx=5, pady=5, sticky=N+S+E+W)
-
-        canvas = Canvas(self.rbframe, bg="#333", width=280, height=200, highlightthickness=0)
-        canvas.grid()
-        photoimage = ImageTk.PhotoImage(file="logosmall.png")
+        canvas = Canvas(bg="#333", width=260, height=339, highlightthickness=0)
+        photoimage = ImageTk.PhotoImage(file=name)
         photoimage.image = photoimage
-        canvas.create_image(200, 200, image=photoimage, anchor=CENTER)
+        canvas.create_image(260, 339, image=photoimage, anchor=S + E)
+        canvas.place(x=1026, y=276)
 
     def resizeall(self):
+        self.howto("resize")
         foldername = tkFileDialog.askdirectory()
+
+        if not foldername:
+            return
+
         onlyfiles = [f for f in listdir(foldername) if isfile(join(foldername, f))]
         images = [fi for fi in onlyfiles if fi.endswith((".jpg", ".png", ".gif"))]
         images = sorted(images)
 
+        makedirs((join(foldername, "resized")))
         for image in images:
-            orig = Image.open(foldername + "/" + image)
-            fitted = orig.resize((800,600), Image.ANTIALIAS)
-            fitted.save(foldername + "/resized/re_" + image)
+            orig = Image.open(join(foldername, image))
+            fitted = orig.resize((800, 600), Image.ANTIALIAS)
+            fitted.save(join(foldername, "/resized/re_", image))
 
     def preview(self):
-        #self.overlaytext = self.txt.get()
+        self.howto("preview")
         self.overlay(self.txt.get())
+        self.tool4.config(state=NORMAL)
 
     def overlay(self, text):
-        # get an image
-        base = Image.open(self.filename).convert('RGBA').resize((800,600), Image.ANTIALIAS)
-        # make a blank image for the text, initialized to transparent text color
+        if not self.filename:
+            return
+
+        base = Image.open(self.filename).convert('RGBA').resize((800, 600), Image.ANTIALIAS)
         txt = Image.new('RGBA', base.size, (255, 255, 255, 00))
 
-        # get a font
-        font = ImageFont.truetype("/home/anon/inator/src/fonts/DolceVitaBold.ttf", 20)
+        font = ImageFont.truetype(join(abspath("."), "fonts", "DolceVitaBold.ttf"), 20)
         w, h = font.getsize(text)
 
-        # get a drawing context
         d = ImageDraw.Draw(txt)
-
-        # draw text
         d.text(((800-w-15), (600-h)-15), text, fill=(255, 255, 255, self.tool1.get()), font=font)
         w = txt.rotate(0)
         out = Image.alpha_composite(base, w)
 
         self.drawimage(out)
-        #out.show()
 
     def nextimg(self):
+        if not self.filename:
+            return
+
         if self.imgidx+1 < self.maximgidx:
             self.listbox.selection_clear(self.imgidx)
             case1 = self.listbox.get(self.imgidx+1)
             self.imgidx += 1
-            self.filename = self.path + "/" + case1
-            self.loadimage(self.path + "/" + case1)
+            self.filename = join(self.path, case1)
+            self.loadimage(join(self.path, case1))
             self.listbox.selection_set(self.imgidx)
         else:
             case2 = self.listbox.get(0)
             self.imgidx = 0
-            self.filename = self.path + "/" + case2
-            self.loadimage(self.path + "/" + case2)
+            self.filename = join(self.path, case2)
+            self.loadimage(join(self.path, case2))
             self.listbox.selection_clear(self.maximgidx-1)
             self.listbox.selection_set(self.imgidx)
 
@@ -164,18 +176,30 @@ class Gui(Frame):
         self.listbox.grid(row=0, padx=10, pady=15, sticky=N+E)
 
     def drawimage(self, image):
-        image = ImageTk.PhotoImage(image.resize((800,600), Image.ANTIALIAS))
+        image = ImageTk.PhotoImage(image)
 
         self.imglbl.configure(image=image)
         self.imglbl.image = image
         self.imglbl.grid(row=0, column=1, sticky=N)
 
     def loadimage(self, filename):
-        image = Image.open(filename).resize((800,600), Image.ANTIALIAS)
+        try:
+            image = Image.open(filename).resize((800, 600), Image.ANTIALIAS)
+        except IOError:
+            print "not an image.."
+            return
+
         self.drawimage(image)
 
     def getpath(self):
         self.filename = tkFileDialog.askopenfilename()
+
+        if not self.filename:
+            return
+
+        self.howto("open")
+        self.tool2.config(state=NORMAL)
+        self.tool3.config(state=NORMAL)
         self.path = dirname(self.filename)
         self.listfiles(dirname(self.filename))
         self.loadimage(self.filename)
@@ -185,7 +209,7 @@ class Gui(Frame):
         idx = sender.curselection()
         self.imgidx = idx[0]
         value = sender.get(idx)
-        self.loadimage(self.path + "/" + value)
+        self.loadimage(join(self.path, value))
 
     def dimensions(self):
         w = 1300
