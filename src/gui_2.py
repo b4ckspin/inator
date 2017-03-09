@@ -129,7 +129,7 @@ class Gui(Frame):
         self.listfiles(foldername)
         self.tool2.configure(state=NORMAL)
         self.tool3.configure(state=NORMAL)
-        self.filename = images[0]
+        self.filename = join(foldername_re, images[0])
         self.path = foldername_re
         self.listbox.bind("<<ListboxSelect>>", self.onselect)
 
