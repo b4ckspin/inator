@@ -10,6 +10,7 @@
       <w>howto</w>
       <w>hpercent</w>
       <w>hsize</w>
+      <w>imagerdy</w>
       <w>imgdir</w>
       <w>imgframe</w>
       <w>imgidx</w>
@@ -38,6 +39,9 @@
       <w>resizeall</w>
       <w>resized</w>
       <w>rframe</w>
+      <w>saveall</w>
+      <w>savename</w>
+      <w>savesingle</w>
       <w>wasinator</w>
       <w>watermarkinator</w>
       <w>wpercent</w>

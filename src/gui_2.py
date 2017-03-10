@@ -2,7 +2,7 @@ from Tkinter import Tk, Listbox, END, Label, N, E, S, W, Menu, Frame, Entry, Sca
                     SINGLE, StringVar, OptionMenu, DISABLED, NORMAL, Button
 from PIL import ImageTk, Image, ImageDraw, ImageFont
 from os import listdir, makedirs
-from os.path import isfile, join, abspath, dirname, isdir
+from os.path import isfile, join, abspath, dirname, isdir, basename
 import tkFileDialog
 
 
@@ -27,7 +27,8 @@ class Gui(Frame):
         self.tool1 = Scale(self.rframe, from_=0, to=255, orient=HORIZONTAL)
         self.tool2 = Button(self.rframe, text="Next image", command=self.nextimg, state=DISABLED)
         self.tool3 = Button(self.rframe, text="Preview", command=self.preview, state=DISABLED)
-        self.tool4 = Button(self.rframe, text="Save", state=DISABLED)
+        self.tool4 = Button(self.rframe, text="Save file", command=self.savesingle, state=DISABLED)
+        self.tool5 = Button(self.rframe, text="Save all", command=self.saveall, state=DISABLED)
         self.var1 = StringVar()
 
         self.imgidx = 0
@@ -85,6 +86,21 @@ class Gui(Frame):
         self.tool2.grid(row=4, column=6, padx=5, pady=5, sticky=N+S+E+W)
         self.tool3.grid(row=5, column=6, padx=5, pady=5, sticky=N+S+E+W)
         self.tool4.grid(row=6, column=6, padx=5, pady=5, sticky=N+S+E+W)
+        self.tool5.grid(row=7, column=6, padx=5, pady=5, sticky=N+S+E+W)
+
+    def savesingle(self):
+        savename = tkFileDialog.asksaveasfile(mode='w', defaultextension=".jpg", initialfile="marked_" + basename(self.filename))
+
+        if not savename:
+            return
+
+        self.imagerdy.save(savename)
+
+    def saveall(self):
+        savename = tkFileDialog.asksaveasfile(mode='w', defaultextension=".jpg", initialdir=dirname(self.filename))
+
+        if not savename:
+            return
 
     def howto(self, which):
         name = ""
@@ -99,7 +115,7 @@ class Gui(Frame):
         photoimage = ImageTk.PhotoImage(file=name)
         photoimage.image = photoimage
         canvas.create_image(260, 339, image=photoimage, anchor=S + E)
-        canvas.place(x=1026, y=276)
+        canvas.place(x=1026, y=300)
 
     def resizeall(self):
         self.howto("resize")
@@ -137,6 +153,7 @@ class Gui(Frame):
         self.howto("preview")
         self.overlay(self.txt.get())
         self.tool4.config(state=NORMAL)
+        self.tool5.config(state=NORMAL)
 
     def overlay(self, text):
         if not self.filename:
@@ -166,6 +183,7 @@ class Gui(Frame):
         w = txt.rotate(0)
         out = Image.alpha_composite(base, w)
 
+        self.imagerdy = out
         self.drawimage(out)
 
     def nextimg(self):
