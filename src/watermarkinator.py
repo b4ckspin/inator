@@ -1,5 +1,5 @@
 from Tkinter import Tk, Listbox, END, Label, N, E, S, W, Menu, Frame, Entry, Scale, HORIZONTAL, Canvas, \
-                    SINGLE, StringVar, OptionMenu, DISABLED, NORMAL, Button
+                    SINGLE, StringVar, OptionMenu, DISABLED, NORMAL, Button, Checkbutton, IntVar, Toplevel, Message
 from PIL import ImageTk, Image, ImageDraw, ImageFont
 from os import listdir, makedirs
 from os.path import isfile, join, abspath, dirname, isdir, basename
@@ -24,12 +24,16 @@ class Gui(Frame):
         self.overlaytext = ""
         self.txt = Entry(self.rframe)
         self.filename = ""
+        self.iscolor = "white"
+
+        self.location = StringVar()
+        self.whichcolor = IntVar()
+
         self.tool1 = Scale(self.rframe, from_=0, to=255, orient=HORIZONTAL)
         self.tool2 = Button(self.rframe, text="Next image", command=self.nextimg, state=DISABLED)
         self.tool3 = Button(self.rframe, text="Preview", command=self.preview, state=DISABLED)
         self.tool4 = Button(self.rframe, text="Save file", command=self.savesingle, state=DISABLED)
-        self.tool5 = Button(self.rframe, text="Save all", command=self.saveall, state=DISABLED)
-        self.var1 = StringVar()
+        self.tool5 = Checkbutton(self.rframe, text=self.iscolor, command=self.color, variable=self.whichcolor)
 
         self.imgidx = 0
         self.maximgidx = 0
@@ -38,7 +42,7 @@ class Gui(Frame):
         self.mainframe()
 
     def mainframe(self):
-        self.parent.title("Watermarkinator v0.8")
+        self.parent.title("Watermarkinator")
         self.parent.configure(background='#333')
 
         self.loadimage(join("howto", "intro.png"))
@@ -52,7 +56,8 @@ class Gui(Frame):
 
         self.filemenu.add_command(label="Open", command=self.getpath)
         self.filemenu.add_separator()
-        self.filemenu.add_command(label="Exit", command="")
+        self.filemenu.add_command(label="Info", command=self.getinfo)
+        self.filemenu.add_command(label="Exit", command=self.exit)
 
         self.menubar.add_cascade(label="File", menu=self.filemenu)
         self.parent.config(menu=self.menubar)
@@ -76,33 +81,57 @@ class Gui(Frame):
 
         lst1 = ['Top-left', 'Top-right', 'Bottom-left', 'Bottom-right']
 
-        self.var1.set("Bottom-right")
-        drop = OptionMenu(self.rframe, self.var1, *lst1)
+        self.location.set("Bottom-right")
+        drop = OptionMenu(self.rframe, self.location, *lst1)
         drop.config(highlightthickness=0)
-        drop.grid(row=2, column=6, padx=5, pady=5, sticky=W + N + E)
+        drop.grid(row=2, column=6, padx=5, pady=5, sticky=W+N+E)
         lblt2 = Label(self.rframe, text="Location", bg="#333", fg="white")
-        lblt2.grid(row=2, column=7, padx=1, pady=5, sticky=W + N)
+        lblt2.grid(row=2, column=7, padx=1, pady=5, sticky=W+N)
 
-        self.tool2.grid(row=4, column=6, padx=5, pady=5, sticky=N+S+E+W)
+        self.tool5.grid(row=4, column=6, padx=5, pady=5, sticky=N+E+W)
+        lblt3 = Label(self.rframe, text="Color", bg="#333", fg="white")
+        lblt3.grid(row=4, column=7, padx=1, pady=5, sticky=W+N)
+
         self.tool3.grid(row=5, column=6, padx=5, pady=5, sticky=N+S+E+W)
         self.tool4.grid(row=6, column=6, padx=5, pady=5, sticky=N+S+E+W)
-        self.tool5.grid(row=7, column=6, padx=5, pady=5, sticky=N+S+E+W)
+        self.tool2.grid(row=7, column=6, padx=5, pady=5, sticky=N+S+E+W)
+
+    @staticmethod
+    def getinfo():
+        about = """
+        The Watermarkinator is developed by Dave.
+
+        All images are property of their respective owners.
+
+
+        If you like the software or have trouble, send me an email:
+        david@fixx-it.at
+        """
+        top = Toplevel()
+        top.title("Watermarkinator v1.0")
+
+        msg = Message(top, text=about, width=400)
+        msg.grid(row=0, column=0, padx=30, pady=0, sticky=E)
+
+        button = Button(top, text="Ok", command=top.destroy)
+        button.grid(row=1, column=0, padx=10, pady=10, sticky=S)
+
+        top.focus()
+
+    def color(self):
+        if self.whichcolor.get() == 0:
+            self.tool5.config(text="white")
+        else:
+            self.tool5.config(text="black")
 
     def savesingle(self):
-        savename = tkFileDialog.asksaveasfile(mode='w', defaultextension=".jpg", initialfile="marked_" + basename(self.filename))
-
-        if not savename:
+        if not self.path or not self.filename:
             return
 
-        self.imagerdy.save(savename)
+        self.imagerdy.save(join(self.path, "done_" + basename(self.filename)))
 
-    def saveall(self):
-        savename = tkFileDialog.asksaveasfile(mode='w', defaultextension=".jpg", initialdir=dirname(self.filename))
-
-        if not savename:
-            return
-
-    def howto(self, which):
+    @staticmethod
+    def howto(which):
         name = ""
         if which == "resize":
             name = join("howto", "dr2_2.png")
@@ -153,7 +182,6 @@ class Gui(Frame):
         self.howto("preview")
         self.overlay(self.txt.get())
         self.tool4.config(state=NORMAL)
-        self.tool5.config(state=NORMAL)
 
     def overlay(self, text):
         if not self.filename:
@@ -165,21 +193,27 @@ class Gui(Frame):
         font = ImageFont.truetype(join(abspath("."), "fonts", "DolceVitaBold.ttf"), 20)
         w, h = font.getsize(text)
         x, y = 0, 0
-        if self.var1.get() == "Bottom-right":
+        if self.location.get() == "Bottom-right":
             x = 800-w-15
             y = 600-h-15
-        elif self.var1.get() == "Bottom-left":
+        elif self.location.get() == "Bottom-left":
             x = 15
             y = 600 - h - 15
-        elif self.var1.get() == "Top-right":
+        elif self.location.get() == "Top-right":
             x = 800-w-15
             y = 15
-        elif self.var1.get() == "Top-left":
+        elif self.location.get() == "Top-left":
             x = 15
             y = 15
 
+        r, g, b = 255, 255, 255
+        if self.whichcolor.get() == 0:
+            r, g, b = 255, 255, 255
+        elif self.whichcolor.get() == 1:
+            r, g, b = 0, 0, 0
+
         d = ImageDraw.Draw(txt)
-        d.text((x, y), text, fill=(255, 255, 255, self.tool1.get()), font=font)
+        d.text((x, y), text, fill=(r, g, b, self.tool1.get()), font=font)
         w = txt.rotate(0)
         out = Image.alpha_composite(base, w)
 
@@ -271,11 +305,15 @@ class Gui(Frame):
         # geometry: x,y + x on screen + y on screen
         self.parent.geometry('%dx%d+%d+%d' % (w, h, x, y))
 
+    @staticmethod
+    def exit():
+        exit(0)
+
 
 def main():
     root = Tk()
     root.resizable(0, 0)
-    app = Gui(root)
+    Gui(root)
     root.mainloop()
 
 if __name__ == '__main__':
