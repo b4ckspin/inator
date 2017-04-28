@@ -166,7 +166,8 @@ class Gui(Frame):
             makedirs(foldername_re)
 
         for image in images:
-            orig = Image.open(join(foldername, image))
+            imgname = join(foldername, image)
+            orig = Image.open(open(imgname, 'rb'))
             fitted = orig.resize((800, 600), Image.ANTIALIAS)
             fitted.save(join(foldername, "resized", image))
 
@@ -187,7 +188,7 @@ class Gui(Frame):
         if not self.filename:
             return
 
-        base = Image.open(self.filename).convert('RGBA').resize((800, 600), Image.ANTIALIAS)
+        base = Image.open(open(self.filename, 'rb')).convert('RGBA').resize((800, 600), Image.ANTIALIAS)
         txt = Image.new('RGBA', base.size, (255, 255, 255, 00))
 
         font = ImageFont.truetype(join(abspath("."), "fonts", "DolceVitaBold.ttf"), 20)
@@ -260,7 +261,7 @@ class Gui(Frame):
 
     def loadimage(self, filename):
         try:
-            image = Image.open(filename).resize((800, 600), Image.ANTIALIAS)
+            image = Image.open(open(filename, 'rb')).resize((800, 600), Image.ANTIALIAS)
         except IOError:
             print "not an image.."
             return
