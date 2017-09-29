@@ -34,6 +34,8 @@ class Gui(Frame):
         self.tool3 = Button(self.rframe, text="Preview", command=self.preview, state=DISABLED)
         self.tool4 = Button(self.rframe, text="Save file", command=self.savesingle, state=DISABLED)
         self.tool5 = Checkbutton(self.rframe, text=self.iscolor, command=self.color, variable=self.whichcolor)
+        self.tool6 = Checkbutton(self.rframe)
+
 
         self.imgidx = 0
         self.maximgidx = 0
@@ -75,26 +77,30 @@ class Gui(Frame):
         lbltxt.grid(row=0, column=7, padx=1, pady=5, sticky=W+N)
 
         self.tool1.set(255)
-        self.tool1.grid(row=1, column=6, padx=5, pady=5, sticky=N+S+E+W)
+        self.tool1.grid(row=2, column=6, padx=5, pady=5, sticky=N+S+E+W)
         lblt1 = Label(self.rframe, text="Opacity", bg="#333", fg="white")
-        lblt1.grid(row=1, column=7, padx=1, pady=5, sticky=W+N)
+        lblt1.grid(row=2, column=7, padx=1, pady=5, sticky=W+N)
 
         lst1 = ['Top-left', 'Top-right', 'Bottom-left', 'Bottom-right']
 
         self.location.set("Bottom-right")
         drop = OptionMenu(self.rframe, self.location, *lst1)
         drop.config(highlightthickness=0)
-        drop.grid(row=2, column=6, padx=5, pady=5, sticky=W+N+E)
+        drop.grid(row=3, column=6, padx=5, pady=5, sticky=W+N+E)
         lblt2 = Label(self.rframe, text="Location", bg="#333", fg="white")
-        lblt2.grid(row=2, column=7, padx=1, pady=5, sticky=W+N)
+        lblt2.grid(row=3, column=7, padx=1, pady=5, sticky=W+N)
 
         self.tool5.grid(row=4, column=6, padx=5, pady=5, sticky=N+E+W)
         lblt3 = Label(self.rframe, text="Color", bg="#333", fg="white")
         lblt3.grid(row=4, column=7, padx=1, pady=5, sticky=W+N)
 
-        self.tool3.grid(row=5, column=6, padx=5, pady=5, sticky=N+S+E+W)
-        self.tool4.grid(row=6, column=6, padx=5, pady=5, sticky=N+S+E+W)
-        self.tool2.grid(row=7, column=6, padx=5, pady=5, sticky=N+S+E+W)
+        self.tool6.grid(row=1, column=6, padx=5, pady=5, sticky=N+S+E+W)
+        lblt4 = Label(self.rframe, text="Badge", bg="#333", fg="white")
+        lblt4.grid(row=1, column=7, padx=1, pady=5, sticky=W + N)
+
+        self.tool3.grid(row=6, column=6, padx=5, pady=5, sticky=N+S+E+W)
+        self.tool4.grid(row=7, column=6, padx=5, pady=5, sticky=N+S+E+W)
+        self.tool2.grid(row=8, column=6, padx=5, pady=5, sticky=N+S+E+W)
 
     @staticmethod
     def getinfo():
@@ -316,6 +322,7 @@ def main():
     root.resizable(0, 0)
     Gui(root)
     root.mainloop()
+
 
 if __name__ == '__main__':
     main()
