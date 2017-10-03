@@ -2,7 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="47c7b5d3-fe17-4f43-9f95-6b2bafcdb2d2" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/win_watermarkinator/win_watermarkinator.zip" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/win_watermarkinator/fonts/Dolce Vita Light.ttf" afterPath="$PROJECT_DIR$/src/win_watermarkinator/fonts/Dolce Vita Light.ttf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/win_watermarkinator/fonts/Dolce Vita.ttf" afterPath="$PROJECT_DIR$/src/win_watermarkinator/fonts/Dolce Vita.ttf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/win_watermarkinator/fonts/DolceVitaBold.ttf" afterPath="$PROJECT_DIR$/src/win_watermarkinator/fonts/DolceVitaBold.ttf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/win_watermarkinator/howto/dr2_2.png" afterPath="$PROJECT_DIR$/src/win_watermarkinator/howto/dr2_2.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/win_watermarkinator/howto/dr3_1.png" afterPath="$PROJECT_DIR$/src/win_watermarkinator/howto/dr3_1.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/win_watermarkinator/howto/dr4_1.png" afterPath="$PROJECT_DIR$/src/win_watermarkinator/howto/dr4_1.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/win_watermarkinator/howto/intro.png" afterPath="$PROJECT_DIR$/src/win_watermarkinator/howto/intro.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/win_watermarkinator/watermarkinator.exe" afterPath="$PROJECT_DIR$/src/win_watermarkinator/watermarkinator.exe" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/watermarkinator.py" afterPath="$PROJECT_DIR$/src/watermarkinator.py" />
     </list>
     <ignored path="wasinator.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -21,7 +30,7 @@
     <SUITE FILE_PATH="coverage/wasinator$layout_2.coverage" NAME="layout_2 Coverage Results" MODIFIED="1488457869235" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/inator$layout.coverage" NAME="layout Coverage Results" MODIFIED="1489051572949" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/wasinator$glob.coverage" NAME="glob Coverage Results" MODIFIED="1488450662740" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/inator$gui_2.coverage" NAME="gui_2 Coverage Results" MODIFIED="1507024072540" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/inator$gui_2.coverage" NAME="gui_2 Coverage Results" MODIFIED="1507026569326" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/wasinator$drawtxt.coverage" NAME="drawtxt Coverage Results" MODIFIED="1488536950923" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/inator$popup.coverage" NAME="popup Coverage Results" MODIFIED="1489576867441" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/tests" />
     <SUITE FILE_PATH="coverage/wasinator$wasinator_v2.coverage" NAME="wasinator_v2 Coverage Results" MODIFIED="1488466548179" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
@@ -54,8 +63,8 @@
       <file leaf-file-name="watermarkinator.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/watermarkinator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
-              <caret line="87" column="68" lean-forward="true" selection-start-line="87" selection-start-column="68" selection-end-line="87" selection-end-column="68" />
+            <state relative-caret-position="366">
+              <caret line="169" column="50" lean-forward="true" selection-start-line="169" selection-start-column="50" selection-end-line="169" selection-end-column="50" />
               <folding>
                 <element signature="e#0#221#0" expanded="true" />
               </folding>
@@ -136,8 +145,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="2657" />
-    <option name="y" value="225" />
+    <option name="x" value="2672" />
+    <option name="y" value="608" />
     <option name="width" value="2289" />
     <option name="height" value="1263" />
   </component>
@@ -569,9 +578,10 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="2657" y="225" width="2289" height="1263" extended-state="0" />
+    <frame x="2672" y="608" width="2289" height="1263" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15421581" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15421581" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -701,8 +711,8 @@
     <entry file="file://$PROJECT_DIR$/src/tests/popup.py" />
     <entry file="file://$PROJECT_DIR$/src/watermarkinator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="87" column="68" lean-forward="true" selection-start-line="87" selection-start-column="68" selection-end-line="87" selection-end-column="68" />
+        <state relative-caret-position="366">
+          <caret line="169" column="50" lean-forward="true" selection-start-line="169" selection-start-column="50" selection-end-line="169" selection-end-column="50" />
           <folding>
             <element signature="e#0#221#0" expanded="true" />
           </folding>

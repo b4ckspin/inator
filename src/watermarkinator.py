@@ -170,7 +170,7 @@ class Gui(Frame):
         photoimage = ImageTk.PhotoImage(file=name)
         photoimage.image = photoimage
         canvas.create_image(260, 339, image=photoimage, anchor=S + E)
-        canvas.place(x=1026, y=330)
+        canvas.place(x=1026, y=350)
 
     def resizeall(self):
         self.howto("resize")
@@ -218,7 +218,6 @@ class Gui(Frame):
         base = Image.open(open(self.filename, 'rb')).convert('RGBA').resize((800, 600), Image.ANTIALIAS)
         txt = Image.new('RGBA', base.size, (255, 255, 255, 00))
 
-
         #if badge is true do this, else text only
         if self.isbadge:
             badgepath = abspath(".") + "/howto/badge.png"
@@ -240,11 +239,8 @@ class Gui(Frame):
                 x = 15
                 y = 15
 
-
             badgelocation = (x,y)
             base.paste(badge, badgelocation, badge)
-
-
 
         font = ImageFont.truetype(join(abspath("."), "fonts", "DolceVitaBold.ttf"), 20)
         w, h = font.getsize(text)
@@ -359,7 +355,7 @@ class Gui(Frame):
 
     def dimensions(self):
         w = 1300
-        h = 670
+        h = 690
 
         sw = self.parent.winfo_screenwidth()
         sh = self.parent.winfo_screenheight()
