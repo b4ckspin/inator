@@ -25,8 +25,10 @@ class Gui(Frame):
         self.txt = Entry(self.rframe)
         self.filename = ""
         self.iscolor = "white"
+        self.isbadge = False
 
-        self.location = StringVar()
+        self.txtlocation = StringVar()
+        self.badgelocation = StringVar()
         self.whichcolor = IntVar()
 
         self.tool1 = Scale(self.rframe, from_=0, to=255, orient=HORIZONTAL)
@@ -34,8 +36,7 @@ class Gui(Frame):
         self.tool3 = Button(self.rframe, text="Preview", command=self.preview, state=DISABLED)
         self.tool4 = Button(self.rframe, text="Save file", command=self.savesingle, state=DISABLED)
         self.tool5 = Checkbutton(self.rframe, text=self.iscolor, command=self.color, variable=self.whichcolor)
-        self.tool6 = Checkbutton(self.rframe)
-
+        self.tool6 = Checkbutton(self.rframe, command=self.badge, state=DISABLED)
 
         self.imgidx = 0
         self.maximgidx = 0
@@ -65,42 +66,61 @@ class Gui(Frame):
         self.parent.config(menu=self.menubar)
 
         tool5 = Button(self.lframe, text="Resize folder", command=self.resizeall, highlightthickness=0)
-        tool5.grid(row=1, column=0, padx=10, sticky=N+S+E+W)
+        tool5.grid(row=2, column=0, padx=10, sticky=N+S+E+W)
+        tool7 = Button(self.lframe, text="Open image", command=self.getpath, highlightthickness=0)
+        tool7.grid(row=1, column=0, padx=10, pady=2, sticky=N+S+E+W)
 
         self.lframe.grid(row=0, column=0, padx=10, sticky=N+W)
         self.mframe.grid(row=0, column=1, padx=0, pady=15, sticky=N)
         self.rframe.grid(row=0, column=6, padx=15, pady=10, sticky=N+E)
         self.rbframe.grid(row=0, column=6, padx=0, pady=0, sticky=E+W+S)
 
+        # text
         self.txt.grid(row=0, column=6, padx=5, pady=5)
         lbltxt = Label(self.rframe, text="Overlay Text", bg="#333", fg="white")
         lbltxt.grid(row=0, column=7, padx=1, pady=5, sticky=W+N)
 
-        self.tool1.set(255)
-        self.tool1.grid(row=2, column=6, padx=5, pady=5, sticky=N+S+E+W)
-        lblt1 = Label(self.rframe, text="Opacity", bg="#333", fg="white")
-        lblt1.grid(row=2, column=7, padx=1, pady=5, sticky=W+N)
-
+        # text location
         lst1 = ['Top-left', 'Top-right', 'Bottom-left', 'Bottom-right']
-
-        self.location.set("Bottom-right")
-        drop = OptionMenu(self.rframe, self.location, *lst1)
+        self.txtlocation.set("Bottom-right")
+        drop = OptionMenu(self.rframe, self.txtlocation, *lst1)
         drop.config(highlightthickness=0)
-        drop.grid(row=3, column=6, padx=5, pady=5, sticky=W+N+E)
+        drop.grid(row=2, column=6, padx=5, pady=5, sticky=W + N + E)
         lblt2 = Label(self.rframe, text="Location", bg="#333", fg="white")
-        lblt2.grid(row=3, column=7, padx=1, pady=5, sticky=W+N)
+        lblt2.grid(row=2, column=7, padx=1, pady=5, sticky=W + N)
 
+        # text opacity
+        self.tool1.set(255)
+        self.tool1.grid(row=3, column=6, padx=5, pady=5, sticky=N+S+E+W)
+        lblt1 = Label(self.rframe, text="Opacity", bg="#333", fg="white")
+        lblt1.grid(row=3, column=7, padx=1, pady=5, sticky=W+N)
+
+        # text color
         self.tool5.grid(row=4, column=6, padx=5, pady=5, sticky=N+E+W)
         lblt3 = Label(self.rframe, text="Color", bg="#333", fg="white")
         lblt3.grid(row=4, column=7, padx=1, pady=5, sticky=W+N)
 
-        self.tool6.grid(row=1, column=6, padx=5, pady=5, sticky=N+S+E+W)
+        # badge
+        self.tool6.grid(row=5, column=6, padx=5, pady=5, sticky=N+S+E+W)
         lblt4 = Label(self.rframe, text="Badge", bg="#333", fg="white")
-        lblt4.grid(row=1, column=7, padx=1, pady=5, sticky=W + N)
+        lblt4.grid(row=5, column=7, padx=1, pady=5, sticky=W+N)
 
-        self.tool3.grid(row=6, column=6, padx=5, pady=5, sticky=N+S+E+W)
-        self.tool4.grid(row=7, column=6, padx=5, pady=5, sticky=N+S+E+W)
-        self.tool2.grid(row=8, column=6, padx=5, pady=5, sticky=N+S+E+W)
+        # badge location
+        lst2 = ['Top-left', 'Top-right', 'Bottom-left', 'Bottom-right']
+        self.badgelocation.set("Bottom-right")
+        drop2 = OptionMenu(self.rframe, self.badgelocation, *lst2)
+        drop2.config(highlightthickness=0)
+        drop2.grid(row=6, column=6, padx=5, pady=5, sticky=W + N + E)
+        lblt3 = Label(self.rframe, text="Location", bg="#333", fg="white")
+        lblt3.grid(row=6, column=7, padx=1, pady=5, sticky=W + N)
+
+
+        # preview
+        self.tool3.grid(row=7, column=6, padx=5, pady=5, sticky=N+S+E+W)
+        # save
+        self.tool4.grid(row=8, column=6, padx=5, pady=5, sticky=N+S+E+W)
+        # next image
+        self.tool2.grid(row=9, column=6, padx=5, pady=5, sticky=N+S+E+W)
 
     @staticmethod
     def getinfo():
@@ -150,7 +170,7 @@ class Gui(Frame):
         photoimage = ImageTk.PhotoImage(file=name)
         photoimage.image = photoimage
         canvas.create_image(260, 339, image=photoimage, anchor=S + E)
-        canvas.place(x=1026, y=300)
+        canvas.place(x=1026, y=330)
 
     def resizeall(self):
         self.howto("resize")
@@ -181,6 +201,7 @@ class Gui(Frame):
         self.listfiles(foldername)
         self.tool2.configure(state=NORMAL)
         self.tool3.configure(state=NORMAL)
+        self.tool6.configure(state=NORMAL)
         self.filename = join(foldername_re, images[0])
         self.path = foldername_re
         self.listbox.bind("<<ListboxSelect>>", self.onselect)
@@ -197,19 +218,47 @@ class Gui(Frame):
         base = Image.open(open(self.filename, 'rb')).convert('RGBA').resize((800, 600), Image.ANTIALIAS)
         txt = Image.new('RGBA', base.size, (255, 255, 255, 00))
 
+
+        #if badge is true do this, else text only
+        if self.isbadge:
+            badgepath = abspath(".") + "/howto/badge.png"
+            badge = Image.open(badgepath, 'r')
+            badge = badge.resize((120, 120), Image.ANTIALIAS)
+
+            bw, bh = badge.size
+            x, y = 0, 0
+            if self.badgelocation.get() == "Bottom-right":
+                x = 800 - bw - 15
+                y = 600 - bh - 15
+            elif self.badgelocation.get() == "Bottom-left":
+                x = 15
+                y = 600 - bh - 15
+            elif self.badgelocation.get() == "Top-right":
+                x = 800 - bw - 15
+                y = 15
+            elif self.badgelocation.get() == "Top-left":
+                x = 15
+                y = 15
+
+
+            badgelocation = (x,y)
+            base.paste(badge, badgelocation, badge)
+
+
+
         font = ImageFont.truetype(join(abspath("."), "fonts", "DolceVitaBold.ttf"), 20)
         w, h = font.getsize(text)
         x, y = 0, 0
-        if self.location.get() == "Bottom-right":
+        if self.txtlocation.get() == "Bottom-right":
             x = 800-w-15
             y = 600-h-15
-        elif self.location.get() == "Bottom-left":
+        elif self.txtlocation.get() == "Bottom-left":
             x = 15
             y = 600 - h - 15
-        elif self.location.get() == "Top-right":
+        elif self.txtlocation.get() == "Top-right":
             x = 800-w-15
             y = 15
-        elif self.location.get() == "Top-left":
+        elif self.txtlocation.get() == "Top-left":
             x = 15
             y = 15
 
@@ -226,6 +275,12 @@ class Gui(Frame):
 
         self.imagerdy = out
         self.drawimage(out)
+
+    def badge(self):
+        if not self.isbadge:
+            self.isbadge = True
+        else:
+            self.isbadge = False
 
     def nextimg(self):
         if not self.filename:
@@ -290,6 +345,7 @@ class Gui(Frame):
         self.listbox.bind("<<ListboxSelect>>", self.onselect)
         self.tool2.config(state=NORMAL)
         self.tool3.config(state=NORMAL)
+        self.tool6.config(state=NORMAL)
         self.path = dirname(self.filename)
         self.listfiles(dirname(self.filename))
         self.loadimage(self.filename)
@@ -303,7 +359,7 @@ class Gui(Frame):
 
     def dimensions(self):
         w = 1300
-        h = 640
+        h = 670
 
         sw = self.parent.winfo_screenwidth()
         sh = self.parent.winfo_screenheight()
