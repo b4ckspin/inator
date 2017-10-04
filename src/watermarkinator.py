@@ -218,7 +218,7 @@ class Gui(Frame):
         base = Image.open(open(self.filename, 'rb')).convert('RGBA').resize((800, 600), Image.ANTIALIAS)
         txt = Image.new('RGBA', base.size, (255, 255, 255, 00))
 
-        #if badge is true do this, else text only
+        # if badge is true do this, else text only
         if self.isbadge:
             badgepath = abspath(".") + "/howto/badge.png"
             badge = Image.open(badgepath, 'r')
@@ -269,7 +269,7 @@ class Gui(Frame):
         w = txt.rotate(0)
         out = Image.alpha_composite(base, w)
 
-        self.imagerdy = out
+        self.imagerdy = out.convert("RGB")
         self.drawimage(out)
 
     def badge(self):
